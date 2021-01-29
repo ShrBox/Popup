@@ -7,11 +7,10 @@ void entry() {
 short ticks = 0;
 
 string popup(const ItemStack* item, money_t money, int plevel) {
-	string itemName = item->getName().c_str();
 	string permLevel;
-	if (itemName.size() == 0) {
-		itemName = u8"空气";
-	}
+	std::string itemName;
+	SymCall("?getSerializedName@Item@@QEBA?AV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@XZ",
+		void, const Item*, std::string*)(item->getItem(), &itemName);
 	switch (plevel) {
 	case 1:
 		permLevel = u8"§c§l管理员";
@@ -24,7 +23,6 @@ string popup(const ItemStack* item, money_t money, int plevel) {
 	}
 	return u8"\n§r§b权限等级: " + permLevel + u8"  §r§b金钱: §e§l" + std::to_string(money) +
 		u8"\n§r§b物品: §a§l" + itemName + ":" + std::to_string(item->getId());
-	
 }
 
 THook(void, "?normalTick@Player@@UEAAXXZ", Player* player) {
