@@ -9,8 +9,14 @@ short ticks = 0;
 string popup(const ItemStack* item, money_t money, int plevel) {
 	string permLevel;
 	std::string itemName;
-	SymCall("?getSerializedName@Item@@QEBA?AV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@XZ",
-		void, const Item*, std::string*)(item->getItem(), &itemName);
+	if (!item->getId() == 0) {
+		SymCall("?getSerializedName@Item@@QEBA?AV?$basic_string@DU?$char_traits@D@std@@V?$allocator@D@2@@std@@XZ",
+			void, const Item*, std::string*)(item->getItem(), &itemName);
+	}
+	else {
+		itemName = u8"空气";
+	}
+	
 	switch (plevel) {
 	case 1:
 		permLevel = u8"§c§l管理员";
