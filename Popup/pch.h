@@ -14,5 +14,7 @@
 #include <api/types/types.h>
 #include <api/types/helper.h>
 #include <bdxmoney.h>
+#include <thread>
+#include <windows.h>
 
 #endif //PCH_H

@@ -2,9 +2,15 @@
 
 void entry() {
 	std::cout << "[Popup] loaded\n";
+	std::thread t(timer);
 }
 
 short ticks = 0;
+void timer() {
+	for (; true; Sleep(1000)) {
+		ticks++;
+	}
+}
 
 string popup(const ItemStack* item, money_t money, int plevel) {
 	string permLevel;
@@ -33,7 +39,7 @@ string popup(const ItemStack* item, money_t money, int plevel) {
 
 THook(void, "?normalTick@Player@@UEAAXXZ", Player* player) {
 	ticks++;
-	if (ticks == 20) {
+	if (ticks > 0) {
 		WPlayer wp = WPlayer(*player);
 		//ItemStack* itemStack = SymCall("?getSelectedItem@Player@@QEBAAEBVItemStack@@XZ", ItemStack*, Player*)(player);
 		wp.sendText(popup(&player->getSelectedItem(), Money::getMoney(wp.getXuid()), player->getCommandPermissionLevel())
